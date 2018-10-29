@@ -1,0 +1,26 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "pcre.go",
+        "pcre.h",
+        "pcre_fallback.h",
+        "platform_darwin.go",
+        "platform_linux.go",
+    ],
+    cdeps = [":libpc"],
+    cgo = True,
+    importpath = "github.com/rubrikinc/go-pcre",
+    visibility = ["//visibility:public"],
+)
+
+cc_import(
+    name = "libpc",
+    hdrs = ["pcre.h"],
+    static_library = select({
+        "@io_bazel_rules_go//go/platform:darwin": "libpcre_darwin.a",
+        "@io_bazel_rules_go//go/platform:linux": "libpcre_linux.a",
+    }),
+    alwayslink = 1,
+)
