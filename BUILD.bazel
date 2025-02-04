@@ -9,6 +9,7 @@ go_library(
         "platform_darwin_arm64.go",
         "platform_linux.go",
     ],
+    clinkopts = [],  # keep
     cdeps = [":libpc"],
     cgo = True,
     importpath = "github.com/rubrikinc/go-pcre",
